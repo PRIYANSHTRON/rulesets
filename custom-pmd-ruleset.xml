@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Custom Ruleset"
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 
+                        http://pmd.sourceforge.net/ruleset_2_0_0.xsd"
+    xsi:noNamespaceSchemaLocation="http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+
+    <description>
+        Custom PMD ruleset for code quality based on specific course requirements.
+    </description>
+
+    <!-- Class naming convention: PascalCase -->
+    <rule ref="category/java/codestyle.xml/ClassNamingConventions">
+        <properties>
+            <property name="format" value="^([A-Z][a-z0-9]+)+$"/>
+        </properties>
+    </rule>
+
+    <!-- Variable naming convention: camelCase -->
+    <rule ref="category/java/codestyle.xml/VariableNamingConventions">
+        <properties>
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+        </properties>
+    </rule>
+
+    <!-- Method naming convention: camelCase -->
+    <rule ref="category/java/codestyle.xml/MethodNamingConventions">
+        <properties>
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+        </properties>
+    </rule>
+
+    <!-- Package naming convention: lowercase -->
+    <rule ref="category/java/codestyle.xml/PackageNamingConventions">
+        <properties>
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+        </properties>
+    </rule>
+
+    <!-- Avoid using System.out.println except in the main method -->
+    <rule name="AvoidSystemOutPrintlnOutsideMain"
+          language="java"
+          message="Avoid using System.out.println outside the main method"
+          class="net.sourceforge.pmd.lang.rule.XPathRule">
+        <description>
+            System.out.println should only be used in the main method.
+        </description>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+                    //MethodDeclaration[not(@name='main')]//PrimaryExpression[PrimaryPrefix/Name[@Image='System.out.println']]
+                </value>
+            </property>
+            <property name="message" value="System.out.println found outside the main method"/>
+        </properties>
+    </rule>
+
+    <!-- Unused imports -->
+    <rule ref="category/java/imports.xml/UnusedImports"/>
+
+</ruleset>
